@@ -12,39 +12,30 @@ struct Node
 };
 
 */
+int helper(Node*temp){
+    if(temp==NULL){
+        return 1;
+    }
+    int carry=helper(temp->next);
+    temp->data=temp->data+carry;
+    if(temp->data<10){
+
+        // Node*newNode= new Node(1);
+        return 0;//carry return karna hai
+    }
+    temp->data=0;
+    return 1;
+}
 
 class Solution {
   public:
-  Node*reverse(Node*head){
-      Node*temp;
-      Node*prev=NULL;
-      Node*curr=head;
-      while(curr!=NULL){
-          temp=curr->next;
-          curr->next=prev;
-          prev=curr;
-          curr=temp;
-      }
-      return prev;
-  }
     Node* addOne(Node* head) {
         // Your Code here
-        head=reverse(head);
-        Node*temp=head;
-        int carry=1;
-        while(temp!=NULL){
-            if(carry){
-                int sum=temp->data=temp->data+carry;
-                carry=sum/10;
-                temp->data=sum%10;
-            }
-            temp=temp->next;
-        }
-        head=reverse(head);
-        if(carry>0){
-            Node*newNode= new Node(carry);
+        int carry=helper(head);
+        if(carry==1){
+            Node*newNode= new Node(1);
             newNode->next=head;
-            head=newNode;
+            return newNode;
         }
         return head;
         // return head of list after adding one
